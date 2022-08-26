@@ -2,21 +2,21 @@
 
 ![](https://cdn.maxlasting.com/doc-assets/202208252231079.jpg)
 
-@ 最近在捣鼓项目的研发环境升级，发现 webpack5 的生态发展的方向是变得越累越简单了，在我看来已经很接近开箱即用了。这里主要记录下配置 ts 的一些方式，因为本人很反感使用 ts，但是对于团队来说 ts 又是不可或缺的，所以把升级的过程和查阅的资料整理一下。
+@ 最近在捣鼓项目的研发环境升级，发现 webpack5 的生态发展的方向是变得越来越简单了，在我看来已经很接近开箱即用了。这里主要记录下配置 ts 的一些方式，因为本人很反感使用 ts，但是对于团队来说 ts 又是不可或缺的，所以把升级的过程和查阅的资料整理一下。
 
 ## ts-loader
 
-这是用于 webpack 的 TypeScript 加载器，将 TypeScript 编译成JavaScript，ts-loader在内部是调用了TypeScript的官方编译器`-- tsc`。所以，ts-loader和tsc是共享tsconfig.json的。
+这是用于`webpack`的`typescript`加载器，将`typescript`编译成js，`ts-loader`在内部是调用了`typescript`的官方编译器`-- tsc`。所以，`ts-loader`和`tsc`是共享`tsconfig.json`的。
 
 **安装**
 
 ```
-npm i -D ts-loader  Typescript
+npm i -D ts-loader  typescript
 ```
 
 正常使用`webpack`即可。 
 
-有两种类型的 Options：TypeScript options（也称为 “编译器 options” ）和 loader options。TypeScript options 应该通过 tsconfig.json 文件设置。loader options 可以通过 webpack 配置中的 options 属性指定：
+有两种类型的 `Options：typescript options`（也称为 “编译器 options” ）和 `loader options。typescript options` 应该通过 `tsconfig.json` 文件设置。`loader options`可以通过`webpack`配置中的 options 属性指定：
 
 ```js
 module.exports = {
@@ -97,9 +97,9 @@ asset app.js 89 bytes [emitted] [minimized] (name: main)
 webpack 5.27.2 compiled successfully in 2289 ms
 ```
 
-## awesome-Typescript-loader
+## awesome-typescript-loader
 
-`awesome-Typescript-loader`的创建主要是为了加快项目中的编译速度。与`ts-loader`的主要区别：
+`awesome-typescript-loader`的创建主要是为了加快项目中的编译速度。与`ts-loader`的主要区别：
 
 - 更适合与 Babel 集成，使用 Babel 的转义和缓存。
 - 不需要安装独立的插件，就可以把类型检查放在独立进程中。
@@ -107,7 +107,7 @@ webpack 5.27.2 compiled successfully in 2289 ms
 **安装**：
 
 ```
-npm i -D awesome-Typescript-loader
+npm i -D awesome-typescript-loader
 ```
 
 ```js
@@ -160,7 +160,7 @@ webpack 5.27.2 compiled successfully in 2529 ms
 
 ## Babel
 
-为什么有了 Typescript，还需要 Babel？看一下对比：
+为什么有了`typescript`，还需要 Babel？看一下对比：
 
 | | 编译能力 | 类型检查 | 插件 |
 | -- | -- | -- | -- |
@@ -171,15 +171,15 @@ Babel 7 之前，是不支持 TS 的，编译流程是这样的：`TS > TS 编�
 
 Babel 7+ 实现了“只有一个 Javascript 编译器” 的梦想！通过允许 Babel 作为唯一的编译器来工作，就再也没必要利用一些复杂的 Webpack 魔法来管理、配置或者合并两个编译器。
 
-**Babel 是如何处理 TypeScript 的？**
+**Babel 是如何处理 typescript 的？**
 
-它移除了 TypeScript。
+它移除了`typescript`。
 
-是的，它将 TypeScript 全部转换为常规 JavaScript，然后再一如既往的操作。
+是的，它将`typescript`全部转换为常规 JS，然后再一如既往的操作。
 
-Babel 为什么在编译过程中剥离 TypeScript？
+Babel 为什么在编译过程中剥离`typescript`？
 
-1 基于 Babel 的优秀的缓存和单文件散发架构，Babel + TypeScript 的组合套餐会提供了更快的编译。
+1 基于 Babel 的优秀的缓存和单文件散发架构，`Babel + typescript` 的组合套餐会提供了更快的编译。
 
 2 而 类型检查 呢？ 那只在当你准备好的时候进行。
 
@@ -212,9 +212,9 @@ Babel 为什么在编译过程中剥离 TypeScript？
 }
 ```
 
-### 结合 TypeScript
+**结合 typescript**
 
-此时，只具备编译功能，再安装 Typescript 补全类型检查功能。
+此时，只具备编译功能，再安装`typescript`补全类型检查功能。
 
 ```json
 // tsconfig.json
@@ -234,16 +234,16 @@ Babel 为什么在编译过程中剥离 TypeScript？
   ...
   "script":{
     ...
-    "check-type": "tsc --watch"
+    "check": "tsc --watch"
   }
 }
 ```
 
-我们需要新开一个 terminal，跑 npm run check-type，就 ok，或者使用 `npm-run-all`。
+我们需要新开一个`terminal`，跑`npm run check`，就 ok，或者使用 `npm-run-all`。
 
-## 如何选择 TypeScript 编译工具
+## 如何选择 typescript 编译工具
 
-- 如果没有使用 Babel，首选 TypeScript 自带编译器（配合 `ts-loader` 使用）
+- 如果没有使用 Babel，首选 typescript 自带编译器（配合 `ts-loader` 使用）
 - 如果项目中有 Babel，安装 `@babel/preset-typescript`，配合`tsc`做类型检查。
 
 两种编译器不要混用。
